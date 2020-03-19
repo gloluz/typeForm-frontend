@@ -108,3 +108,26 @@ export const AnswersOfOnePerson = styled.div`
     margin-bottom: 0;
   }
 `;
+
+export const Notification = styled.div`
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  padding: 16px 20px;
+  border-radius: 5px;
+  background-color: #d5f7cb;
+  color: #488436;
+  border: 1px solid #80d268;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: 0.3s all ease;
+
+  ${({ show }) =>
+    show &&
+    css`
+      opacity: 1;
+    `}
+`;

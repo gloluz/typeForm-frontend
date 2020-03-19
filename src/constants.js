@@ -7,5 +7,7 @@ export const COLORS = {
   black: "#143742",
   darkBlue: "#275563",
   silver: "#EAEDEF",
-  white: "#fff"
+  white: "#fff",
+  whiteGreen: "#D5F7CB",
+  green: "#74CB5A"
 };

@@ -19,7 +19,6 @@ const StyledButton = styled.button`
 
   &:disabled {
     opacity: 0.5;
-    border: 1px solid transparent;
     cursor: not-allowed;
   }
 

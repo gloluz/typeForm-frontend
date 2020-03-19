@@ -6,7 +6,7 @@ import Flex from "../../components/Flex";
 import { Link, useParams, useHistory } from "react-router-dom";
 import Icon from "../../components/Icon";
 import { BlueBox } from "../../components/BlueBox";
-import { StyledText, Input, TabItem } from "./styles";
+import { StyledText, Input, TabItem, Notification } from "./styles";
 import Answers from "./Answers";
 import Questions from "./Questions";
 import { postForm } from "../../services/postForm";
@@ -14,17 +14,21 @@ import { fetchForm } from "../../services/fetchForm";
 import { updateForm } from "../../services/updateForm";
 import { deleteForm } from "../../services/deleteForm";
 
+const INITIAL_FORM = { title: "", answers: [], questions: [] };
+
 const Form = () => {
   const [selectedTab, setSelectedTab] = useState("questions");
+  const [form, setForm] = useState(INITIAL_FORM);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [titleForm, setTitleForm] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const { id } = useParams();
   const history = useHistory();
 
   /**
-   * Function to change question's order
+   * Functions to change question's order
    * @param {number} index
    */
   const moveUpQuestion = index => {
@@ -85,13 +89,22 @@ const Form = () => {
     setTitleForm(value);
   };
 
-  const handleForm = () => {
+  const handleForm = async () => {
     if (!id) {
-      postForm({ title: titleForm, questions, answers });
-      history.push("/");
+      const form = await postForm({ title: titleForm, questions, answers });
+      history.push(`/form/${form._id}`);
+      setShowMessage(true);
+
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 3000);
     } else {
       updateForm({ title: titleForm, questions, answers, _id: id });
-      history.push("/");
+      setShowMessage(true);
+
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 4000);
     }
   };
 
@@ -128,6 +141,7 @@ const Form = () => {
       setTitleForm(form.title);
       setQuestions(form.questions || []);
       setAnswers(form.answers || []);
+      setForm(form);
     }
   };
 
@@ -141,86 +155,93 @@ const Form = () => {
   }, []);
 
   return (
-    <Container>
-      <Flex direction="row" justify="space-between" align="center">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Flex direction="row" align="center">
-            <Icon icon="chevron-left" color="black" size="24px" />
-            <StyledText>Mes formulaires</StyledText>
-          </Flex>
-        </Link>
+    <>
+      <Notification show={showMessage}>
+        <Icon icon="check" style={{ marginRight: 10 }} />
+        Vos modifications ont été prises en compte !
+      </Notification>
 
-        <Flex direction="row">
-          <Input
-            type="text"
-            name="title"
-            style={{ marginRight: 10 }}
-            placeholder="Nom du formulaire"
-            onChange={handleChangeText}
-            value={titleForm}
-          />
-          <Button
-            appearance="outline"
-            color="blue"
-            iconCenter="check"
-            iconSize="22px"
-            onClick={handleForm}
-          />
-        </Flex>
-
-        <Flex direction="row">
-          <Button
-            appearance="outline"
-            color="pink"
-            iconCenter="trash"
-            style={{ marginRight: 10 }}
-            onClick={deletedForm}
-          />
-
-          <Link to={`/form/${id}/answer`} style={{ textDecoration: "none" }}>
-            <Button
-              appearance="fill"
-              color="blue"
-              disabled={titleForm.trim() === ""}
-            >
-              Répondre
-            </Button>
+      <Container>
+        <Flex direction="row" justify="space-between" align="center">
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Flex direction="row" align="center">
+              <Icon icon="chevron-left" color="black" size="24px" />
+              <StyledText>Mes formulaires</StyledText>
+            </Flex>
           </Link>
+
+          <Flex direction="row">
+            <Input
+              type="text"
+              name="title"
+              style={{ marginRight: 10 }}
+              placeholder="Nom du formulaire"
+              onChange={handleChangeText}
+              value={titleForm}
+            />
+            <Button
+              appearance="outline"
+              color="blue"
+              iconCenter="check"
+              iconSize="22px"
+              onClick={handleForm}
+              disabled={titleForm.trim() === ""}
+            />
+          </Flex>
+
+          <Flex direction="row">
+            <Button
+              appearance="outline"
+              color="pink"
+              iconCenter="trash"
+              style={{ marginRight: 10 }}
+              disabled={!id}
+              onClick={deletedForm}
+            />
+            {console.log("questions", form.questions[0])}
+            <Link to={`/form/${id}/answer`} style={{ textDecoration: "none" }}>
+              <Button appearance="fill" color="blue" disabled={!id}>
+                Répondre
+              </Button>
+            </Link>
+          </Flex>
         </Flex>
-      </Flex>
 
-      <BlueBox>
-        <Flex>
-          <TabItem
-            isSelected={selectedTab === "questions"}
-            onClick={() => setSelectedTab("questions")}
-          >
-            Questions
-          </TabItem>
-          <TabItem
-            isSelected={selectedTab === "answers"}
-            onClick={() => setSelectedTab("answers")}
-          >
-            Réponses
-          </TabItem>
-        </Flex>
+        <BlueBox>
+          <Flex>
+            <TabItem
+              isSelected={selectedTab === "questions"}
+              onClick={() => setSelectedTab("questions")}
+            >
+              Questions
+            </TabItem>
+            <TabItem
+              isSelected={selectedTab === "answers"}
+              onClick={() => setSelectedTab("answers")}
+            >
+              Réponses
+            </TabItem>
+          </Flex>
 
-        {selectedTab === "questions" && (
-          <Questions
-            questions={questions}
-            onChangeText={onChangeText}
-            moveUpQuestion={moveUpQuestion}
-            moveDownQuestion={moveDownQuestion}
-            removeQuestion={removeQuestion}
-            onAdd={onAdd}
-            disabled={titleForm.trim() === ""}
-            onSave={handleForm}
-          />
-        )}
+          {selectedTab === "questions" && (
+            <Questions
+              questions={questions}
+              onChangeText={onChangeText}
+              moveUpQuestion={moveUpQuestion}
+              moveDownQuestion={moveDownQuestion}
+              removeQuestion={removeQuestion}
+              onAdd={onAdd}
+              disabled={titleForm.trim() === ""}
+              onSave={handleForm}
+            />
+          )}
 
-        {selectedTab === "answers" && <Answers answers={answers} />}
-      </BlueBox>
-    </Container>
+          {selectedTab === "answers" && form.questions.length > 0 && (
+            <Answers answers={answers} />
+          )}
+        </BlueBox>
+      </Container>
+    </>
   );
 };
 

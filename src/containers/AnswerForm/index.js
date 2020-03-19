@@ -169,15 +169,33 @@ const AnswerForm = () => {
             <Title level={1} style={{ marginTop: 20, marginBottom: 20 }}>
               {form?.title}
             </Title>
-            <Title level={2}>{form.questions.length} questions</Title>
-            <Button
-              appearance="fill"
-              color="blue"
-              style={{ marginTop: 15 }}
-              onClick={beginQuestion}
-            >
-              Commencer
-            </Button>
+
+            {form.questions.length === 0 ? (
+              <>
+                <Title level={2}>Pas encore de question pour le moment</Title>
+                <Link to={`/form/${id}`} style={{ textDecoration: "none" }}>
+                  <Button
+                    appearance="outline"
+                    color="blue"
+                    style={{ marginTop: 15 }}
+                  >
+                    Ajouter des questions
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Title level={2}>{form.questions.length} questions</Title>
+                <Button
+                  appearance="fill"
+                  color="blue"
+                  style={{ marginTop: 15 }}
+                  onClick={beginQuestion}
+                >
+                  Commencer
+                </Button>
+              </>
+            )}
           </Flex>
         )}
 
