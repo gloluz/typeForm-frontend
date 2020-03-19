@@ -1,5 +1,11 @@
 import React from "react";
-import { Tab, QuestionTitleInput } from "./styles";
+import {
+  Tab,
+  QuestionTitleInput,
+  ButtonContainer,
+  ButtonAddQuestion,
+  QuestionContainer
+} from "./styles";
 import Flex from "../../components/Flex";
 import QuestionType from "../../components/QuestionType";
 import Button from "../../components/Button";
@@ -19,9 +25,11 @@ const Questions = ({
       <Flex direction="column" flex={"1"}>
         <Flex direction="column" style={{ minWidth: "100%" }}>
           {questions.map((question, index) => (
-            <Flex
-              align="center"
-              style={{ marginBottom: 50, minWidth: "100%" }}
+            <QuestionContainer
+              justify="flex-end"
+              align="flex-start"
+              wrap={true}
+              style={{ minWidth: "100%" }}
               key={index}
             >
               <QuestionType type={question.type} index={index + 1} />
@@ -31,40 +39,42 @@ const Questions = ({
                 onChange={event => onChangeText(event, index)}
               />
 
-              <Button
-                appearance="bgWhite"
-                color="black"
-                iconCenter="chevron-up"
-                size="small"
-                iconSize="28px"
-                style={{ marginLeft: 10 }}
-                disabled={index === 0}
-                onClick={() => moveUpQuestion(index)}
-              />
-              <Button
-                appearance="bgWhite"
-                color="black"
-                iconCenter="chevron-down"
-                size="small"
-                iconSize="28px"
-                disabled={index === questions.length - 1}
-                style={{ marginLeft: 10 }}
-                onClick={() => moveDownQuestion(index)}
-              />
-              <Button
-                appearance="bgWhite"
-                color="pink"
-                iconCenter="trash"
-                size="small"
-                style={{ marginLeft: 10 }}
-                onClick={() => removeQuestion(index)}
-              />
-            </Flex>
+              <Flex>
+                <Button
+                  appearance="bgWhite"
+                  color="black"
+                  iconCenter="chevron-up"
+                  size="small"
+                  iconSize="28px"
+                  style={{ marginLeft: 10 }}
+                  disabled={index === 0}
+                  onClick={() => moveUpQuestion(index)}
+                />
+                <Button
+                  appearance="bgWhite"
+                  color="black"
+                  iconCenter="chevron-down"
+                  size="small"
+                  iconSize="28px"
+                  disabled={index === questions.length - 1}
+                  style={{ marginLeft: 10 }}
+                  onClick={() => moveDownQuestion(index)}
+                />
+                <Button
+                  appearance="bgWhite"
+                  color="pink"
+                  iconCenter="trash"
+                  size="small"
+                  style={{ marginLeft: 10 }}
+                  onClick={() => removeQuestion(index)}
+                />
+              </Flex>
+            </QuestionContainer>
           ))}
         </Flex>
 
-        <Flex>
-          <Button
+        <ButtonContainer>
+          <ButtonAddQuestion
             appearance="outline"
             iconBefore="file-text"
             color="blue"
@@ -72,30 +82,30 @@ const Questions = ({
             onClick={() => onAdd("text")}
           >
             Ajouter une question "Texte"
-          </Button>
-          <Button
+          </ButtonAddQuestion>
+          <ButtonAddQuestion
             appearance="outline"
             iconBefore="star"
             color="blue"
             onClick={() => onAdd("note")}
           >
             Ajouter une question "Note"
-          </Button>
-        </Flex>
+          </ButtonAddQuestion>
+        </ButtonContainer>
       </Flex>
 
       <Flex
         justify="flex-end"
         style={{ justifySelf: "flex-end", marginTop: 24 }}
       >
-        <Button
+        <ButtonAddQuestion
           appearance="fill"
           color="blue"
           disabled={disabled}
           onClick={onSave}
         >
           Sauvegarder
-        </Button>
+        </ButtonAddQuestion>
       </Flex>
     </Tab>
   );

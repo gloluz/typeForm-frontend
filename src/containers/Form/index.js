@@ -6,7 +6,14 @@ import Flex from "../../components/Flex";
 import { Link, useParams, useHistory } from "react-router-dom";
 import Icon from "../../components/Icon";
 import { BlueBox } from "../../components/BlueBox";
-import { StyledText, Input, TabItem, Notification } from "./styles";
+import {
+  StyledText,
+  InputTitle,
+  TabItem,
+  Notification,
+  TopBar,
+  TabList
+} from "./styles";
 import Answers from "./Answers";
 import Questions from "./Questions";
 import { postForm } from "../../services/postForm";
@@ -162,7 +169,7 @@ const Form = () => {
       </Notification>
 
       <Container>
-        <Flex direction="row" justify="space-between" align="center">
+        <TopBar direction="row" justify="space-between" align="center">
           <Link to="/" style={{ textDecoration: "none" }}>
             <Flex direction="row" align="center">
               <Icon icon="chevron-left" color="black" size="24px" />
@@ -171,7 +178,7 @@ const Form = () => {
           </Link>
 
           <Flex direction="row">
-            <Input
+            <InputTitle
               type="text"
               name="title"
               style={{ marginRight: 10 }}
@@ -198,17 +205,16 @@ const Form = () => {
               disabled={!id}
               onClick={deletedForm}
             />
-            {console.log("questions", form.questions[0])}
             <Link to={`/form/${id}/answer`} style={{ textDecoration: "none" }}>
               <Button appearance="fill" color="blue" disabled={!id}>
                 Répondre
               </Button>
             </Link>
           </Flex>
-        </Flex>
+        </TopBar>
 
         <BlueBox>
-          <Flex>
+          <TabList>
             <TabItem
               isSelected={selectedTab === "questions"}
               onClick={() => setSelectedTab("questions")}
@@ -221,7 +227,7 @@ const Form = () => {
             >
               Réponses
             </TabItem>
-          </Flex>
+          </TabList>
 
           {selectedTab === "questions" && (
             <Questions
@@ -236,9 +242,7 @@ const Form = () => {
             />
           )}
 
-          {selectedTab === "answers" && form.questions.length > 0 && (
-            <Answers answers={answers} />
-          )}
+          {selectedTab === "answers" && <Answers answers={answers} />}
         </BlueBox>
       </Container>
     </>

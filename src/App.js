@@ -16,6 +16,10 @@ const Header = styled.header`
   border-bottom: 1px solid ${COLORS.silver};
   display: flex;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    height: 70px;
+  }
 `;
 
 const App = () => {

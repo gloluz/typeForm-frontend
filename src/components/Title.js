@@ -7,6 +7,10 @@ const H1 = styled.h1`
   font-size: 36px;
   font-weight: bold;
   color: ${COLORS.black};
+
+  @media screen and (max-width: 768px) {
+    font-size: 28px;
+  }
 `;
 
 const H2 = styled.h2`
@@ -14,21 +18,33 @@ const H2 = styled.h2`
   font-size: 22px;
   font-weight: bold;
   color: ${COLORS.black};
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
-const H3 = styled.h2`
+const H3 = styled.h3`
   font-family: "Averta", sans-serif;
   font-size: 24px;
   font-weight: bold;
   color: ${COLORS.darkBlue};
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
-const H4 = styled.h2`
+const H4 = styled.h4`
   font-family: "Averta", sans-serif;
   font-size: 18px;
   font-weight: 400;
   text-transform: uppercase;
   color: ${COLORS.darkBlue};
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const Title = ({ children, level, ...props }) => {

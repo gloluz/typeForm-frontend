@@ -9,8 +9,10 @@ const StyledBox = styled.div`
   padding: 24px;
   box-sizing: border-box;
 
-  &:nth-child(3) {
-    margin-right: 0;
+  @media (min-width: 1025px) {
+    &:nth-child(3) {
+      margin-right: 0;
+    }
   }
 
   ${({ color }) =>
@@ -31,6 +33,19 @@ const StyledBox = styled.div`
         rgba(234, 238, 239, 0.35) 98.29%
       );
     `};
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    width: calc(50% - 12px);
+
+    &:nth-child(2) {
+      margin-right: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-right: 0;
+  }
 `;
 
 const Box = ({ children, color }) => {

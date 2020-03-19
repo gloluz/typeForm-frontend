@@ -11,4 +11,9 @@ export const BlueBox = styled.div`
   padding: 40px;
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 768px) {
+    padding: 24px 12px;
+    min-height: auto;
+  }
 `;

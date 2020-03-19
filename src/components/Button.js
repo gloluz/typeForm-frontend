@@ -17,6 +17,11 @@ const StyledButton = styled.button`
   transition: 0.3s all ease;
   outline: none;
 
+
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -103,6 +108,7 @@ const StyledButton = styled.button`
         border-color: ${COLORS[color]};
       }
     `}
+
 `;
 
 const Button = ({

@@ -8,6 +8,11 @@ const StyledRating = styled.div`
   border: 1px solid ${COLORS.darkBlue};
   border-radius: 10px;
   overflow: hidden;
+
+  @media screen and (max-width: 768px) {
+    width: 220px;
+    height: 50px;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -21,6 +26,10 @@ const StyledButton = styled.button`
   border-right: 1px solid ${COLORS.darkBlue};
   transition: 0.3s all ease;
   outline: none;
+
+  @media screen and (max-width: 768px) {
+    font-size: 18px;
+  }
 
   &:disabled {
     color: ${COLORS.darkBlue};

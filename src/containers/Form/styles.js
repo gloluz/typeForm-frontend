@@ -1,10 +1,13 @@
 import styled, { css } from "styled-components";
+
+import Button from "../../components/Button";
 import { COLORS } from "../../constants";
+import Flex from "../../components/Flex";
 
 /**
  * Global Styles of the form
  */
-export const Input = styled.input`
+export const InputTitle = styled.input`
   outline: none;
   height: 50px;
   font-size: 24px;
@@ -20,6 +23,19 @@ export const Input = styled.input`
   &:focus {
     box-shadow: 0 0 0 1px ${COLORS.black};
   }
+
+  @media screen and (max-width: 1200px) {
+    font-size: 18px;
+  }
+
+  @media screen and (max-width: 1024px) {
+    width: 300px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 768px) {
+    width: 250px;
+  }
 `;
 
 export const StyledText = styled.span`
@@ -28,6 +44,23 @@ export const StyledText = styled.span`
   font-weight: bold;
   font-size: 18px;
   margin-left: 15px;
+  margin-right: 10px;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-right: 0;
+  }
+`;
+
+export const TabList = styled(Flex)`
+  @media screen and (max-width: 768px) {
+    justify-content: space-around;
+  }
 `;
 
 export const TabItem = styled.button`
@@ -43,6 +76,12 @@ export const TabItem = styled.button`
   padding: 0;
   margin-right: 80px;
   transition: 0.2s all ease;
+
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+    margin: 5px 0 0 0;
+    padding-bottom: 10px;
+  }
 
   &:hover {
     color: ${COLORS.darkBlue};
@@ -61,6 +100,10 @@ export const Tab = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 30px;
+  }
 `;
 
 export const QuestionTitleInput = styled.input`
@@ -80,6 +123,11 @@ export const QuestionTitleInput = styled.input`
 
   &:focus {
     box-shadow: 0 0 0 1px ${COLORS.blue};
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-left: 10px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -130,4 +178,59 @@ export const Notification = styled.div`
     css`
       opacity: 1;
     `}
+`;
+
+export const TopBar = styled(Flex)`
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: -10px;
+
+    > *:nth-child(2) {
+      order: 3;
+      width: 100%;
+      margin-top: 15px;
+
+      > input {
+        flex: 1;
+      }
+    }
+  }
+`;
+
+export const ButtonContainer = styled(Flex)`
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+`;
+
+export const ButtonAddQuestion = styled(Button)`
+  @media screen and (max-width: 768px) {
+    margin: 0 0 10px 0 !important;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+  }
+`;
+
+export const QuestionContainer = styled(Flex)`
+  margin-bottom: 50px;
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 24px;
+  }
+`;
+
+export const AnswerContainer = styled(Flex)`
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+export const NoAnswerText = styled.div`
+  font-family: "Averta", sans-serif;
+  font-size: 16px;
+  color: ${COLORS.darkBlue};
 `;

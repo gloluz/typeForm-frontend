@@ -8,33 +8,10 @@ import { StyledText } from "../Form/styles";
 import { BlueBox } from "../../components/BlueBox";
 import Title from "../../components/Title";
 import Button from "../../components/Button";
-import styled from "styled-components";
-import { COLORS } from "../../constants";
 import Rating from "../../components/Rating";
 import { fetchForm } from "../../services/fetchForm";
 import { updateForm } from "../../services/updateForm";
-
-const TextArea = styled.textarea`
-  background-color: ${COLORS.white};
-  border: none;
-  outline: none;
-  border-radius: 10px;
-  padding: 35px 25px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  color: ${COLORS.darkBlue};
-  font-size: 18px;
-  font-weight: 400;
-  font-family: "Averta", sans-serif;
-  max-width: 100%;
-  width: 1040px;
-  min-height: 215px;
-  box-sizing: border-box;
-
-  &:focus {
-    box-shadow: 0 0 0 1px ${COLORS.blue};
-  }
-`;
+import { TextArea, TitleEnd } from "./styles";
 
 const INITIAL_FORM = { title: "", answers: [], questions: [] };
 
@@ -201,8 +178,14 @@ const AnswerForm = () => {
 
         {questionScreen === "question" && (
           <Flex direction="column" justify="center" align="center" flex="1">
-            <Flex flex="1" direction="column" justify="center" align="center">
-              <Title level={4} style={{ marginBottom: 15 }}>
+            <Flex
+              flex="1"
+              direction="column"
+              justify="center"
+              align="center"
+              style={{ maxWidth: "100%" }}
+            >
+              <Title level={4} style={{ marginBottom: 15, marginTop: 10 }}>
                 Question {currentQuestion + 1}
               </Title>
               <Title level={1}>{form.questions[currentQuestion].title}</Title>
@@ -264,7 +247,7 @@ const AnswerForm = () => {
 
         {questionScreen === "success" && (
           <Flex flex="1" direction="column" justify="center" align="center">
-            <Title level={1}>Merci d'avoir répondu à ce formulaire</Title>
+            <TitleEnd level={1}>Merci d'avoir répondu à ce formulaire</TitleEnd>
 
             <Link to="/" style={{ textDecoration: "none" }}>
               <Button appearance="fill" color="blue" style={{ marginTop: 60 }}>
