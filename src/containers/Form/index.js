@@ -152,6 +152,22 @@ const Form = () => {
     }
   };
 
+  const isSaveButtonDisabled = () => {
+    let disabled = false;
+
+    if (titleForm.trim() === "") {
+      disabled = true;
+    }
+
+    questions.forEach((question, index) => {
+      if (question.title.trim() === "") {
+        disabled = true;
+      }
+    });
+
+    return disabled;
+  };
+
   useEffect(() => {
     if (id === undefined) {
       setQuestions([]);
@@ -192,7 +208,7 @@ const Form = () => {
               iconCenter="check"
               iconSize="22px"
               onClick={handleForm}
-              disabled={titleForm.trim() === ""}
+              disabled={isSaveButtonDisabled()}
             />
           </Flex>
 
@@ -237,7 +253,7 @@ const Form = () => {
               moveDownQuestion={moveDownQuestion}
               removeQuestion={removeQuestion}
               onAdd={onAdd}
-              disabled={titleForm.trim() === ""}
+              disabled={isSaveButtonDisabled()}
               onSave={handleForm}
             />
           )}

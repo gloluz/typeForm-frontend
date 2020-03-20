@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import styled from "styled-components";
 import { COLORS } from "../constants";
 
@@ -56,6 +58,11 @@ const Title = ({ children, level, ...props }) => {
       {level === 4 && <H4 {...props}>{children}</H4>}
     </>
   );
+};
+
+Title.propTypes = {
+  children: PropTypes.node.isRequired,
+  level: PropTypes.oneOf([1, 2, 3, 4]).isRequired
 };
 
 export default Title;

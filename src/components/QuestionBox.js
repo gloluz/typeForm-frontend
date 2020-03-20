@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import Box from "./Box";
 import Button from "./Button";
@@ -41,6 +42,11 @@ const QuestionBox = ({ question, id }) => {
       </Flex>
     </Box>
   );
+};
+
+QuestionBox.propTypes = {
+  question: PropTypes.string,
+  id: PropTypes.string
 };
 
 export default QuestionBox;

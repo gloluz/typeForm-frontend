@@ -41,7 +41,7 @@ const Home = () => {
         Mes formulaires
       </Title>
 
-      <Flex wrap>
+      <Flex wrap={true}>
         <Box color="blue">
           <Link to="/form/create" style={{ textDecoration: "none" }}>
             <Flex

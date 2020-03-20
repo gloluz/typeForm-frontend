@@ -1,5 +1,20 @@
 import styled, { css } from "styled-components";
 import { COLORS } from "../constants";
+import PropTypes from "prop-types";
+
+export const icons = [
+  "arrow-right",
+  "arrow-left",
+  "star",
+  "file-text",
+  "trash",
+  "check",
+  "chevron-right",
+  "chevron-left",
+  "chevron-down",
+  "chevron-up",
+  "add"
+];
 
 const Icon = styled.i`
   font-family: "Formnest" !important;
@@ -107,5 +122,15 @@ const Icon = styled.i`
       }
     `}
 `;
+
+Icon.propTypes = {
+  icon: PropTypes.oneOf(icons).isRequired,
+  size: PropTypes.string,
+  color: PropTypes.oneOf(Object.keys(COLORS))
+};
+
+Icon.defaultProps = {
+  size: "20px"
+};
 
 export default Icon;

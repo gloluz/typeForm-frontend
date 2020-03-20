@@ -1,5 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
+
 import { COLORS } from "../constants";
 
 const StyledRating = styled.div`
@@ -73,6 +75,18 @@ const Rating = ({ onChange, value, readonly }) => {
       ))}
     </StyledRating>
   );
+};
+
+Rating.propTypes = {
+  onChange: PropTypes.func,
+  value: PropTypes.number,
+  readonly: PropTypes.bool
+};
+
+Rating.defaultProps = {
+  onChange: () => {},
+  value: undefined,
+  readonly: undefined
 };
 
 export default Rating;

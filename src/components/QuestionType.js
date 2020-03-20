@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Icon from "./Icon";
 import styled, { css } from "styled-components";
@@ -55,6 +56,11 @@ const QuestionType = ({ type, index }) => {
       )}
     </StyledQuestionType>
   );
+};
+
+QuestionType.propTypes = {
+  type: PropTypes.oneOf(["text", "note"]),
+  index: PropTypes.number
 };
 
 export default QuestionType;

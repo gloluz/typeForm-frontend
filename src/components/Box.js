@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
+import { COLORS } from "../constants";
 
 const StyledBox = styled.div`
   border-radius: 10px;
@@ -50,6 +52,11 @@ const StyledBox = styled.div`
 
 const Box = ({ children, color }) => {
   return <StyledBox color={color}>{children}</StyledBox>;
+};
+
+Box.propTypes = {
+  children: PropTypes.node,
+  color: PropTypes.oneOf(Object.keys(COLORS))
 };
 
 export default Box;

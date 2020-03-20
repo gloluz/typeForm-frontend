@@ -1,6 +1,8 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
 import { COLORS } from "../constants";
+import { icons } from "./Icon";
 import Icon from "./Icon";
 
 const StyledButton = styled.button`
@@ -158,6 +160,25 @@ const Button = ({
       )}
     </StyledButton>
   );
+};
+
+Button.propTypes = {
+  children: PropTypes.node,
+  appearance: PropTypes.oneOf(["fill", "text", "outline", "bgWhite"])
+    .isRequired,
+  color: PropTypes.oneOf(Object.keys(COLORS)).isRequired,
+  iconAfter: PropTypes.oneOf(icons),
+  iconCenter: PropTypes.oneOf(icons),
+  iconBefore: PropTypes.oneOf(icons),
+  onClick: PropTypes.func,
+  size: PropTypes.oneOf(["small", "big"]),
+  disabled: PropTypes.bool
+};
+
+Button.defaultProps = {
+  onClick: () => {},
+  disabled: false,
+  size: "big"
 };
 
 export default Button;
