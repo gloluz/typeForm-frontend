@@ -181,7 +181,7 @@ const Form = () => {
     <>
       <Notification show={showMessage}>
         <Icon icon="check" style={{ marginRight: 10 }} />
-        Vos modifications ont été prises en compte !
+        <p>Vos modifications ont été prises en compte !</p>
       </Notification>
 
       <Container>

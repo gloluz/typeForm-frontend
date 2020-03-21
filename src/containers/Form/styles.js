@@ -161,7 +161,9 @@ export const Notification = styled.div`
   position: fixed;
   top: 24px;
   right: 24px;
-  padding: 16px 20px;
+  margin-top: -10px;
+  padding: 0 24px;
+  max-height: 0;
   border-radius: 5px;
   background-color: #d5f7cb;
   color: #488436;
@@ -170,14 +172,28 @@ export const Notification = styled.div`
   font-size: 16px;
   display: flex;
   align-items: center;
+  justify-content: center;
   opacity: 0;
   transition: 0.3s all ease;
+  overflow: hidden;
+  box-sizing: border-box;
 
   ${({ show }) =>
     show &&
     css`
       opacity: 1;
+      margin-top: 0;
+      max-height: 100px;
     `}
+
+  @media screen and (max-width: 768px) {
+    font-size: 14px;
+    width: calc(100% - 24px);
+    right: 12px;
+    top: inherit;
+    bottom: 12px;
+    padding: 0 12px;
+  }
 `;
 
 export const TopBar = styled(Flex)`
