@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Container from "../../components/Container";
 import Flex from "../../components/Flex";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import Icon from "../../components/Icon";
 import { StyledText } from "../Form/styles";
 import { BlueBox } from "../../components/BlueBox";
@@ -22,6 +22,7 @@ const AnswerForm = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const { id } = useParams();
+  const history = useHistory();
 
   const beginQuestion = () => setQuestionScreen("question");
 
@@ -109,6 +110,8 @@ const AnswerForm = () => {
 
     if (form) {
       setForm(form);
+    } else {
+      history.push("/");
     }
   };
 

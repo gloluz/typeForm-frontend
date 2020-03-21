@@ -1,6 +1,7 @@
+import PropTypes from "prop-types";
+
 import styled, { css } from "styled-components";
 import { COLORS } from "../constants";
-import PropTypes from "prop-types";
 
 export const icons = [
   "arrow-right",
