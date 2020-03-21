@@ -177,6 +177,7 @@ export const Notification = styled.div`
   transition: 0.3s all ease;
   overflow: hidden;
   box-sizing: border-box;
+  z-index: 10;
 
   ${({ show }) =>
     show &&
