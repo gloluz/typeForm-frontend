@@ -9,6 +9,7 @@ import { ReactComponent as Logo } from "../src/assets/Logo.svg";
 import Home from "./containers/Home";
 import Form from "./containers/Form";
 import AnswerForm from "./containers/AnswerForm";
+import NoRoute from "./containers/NoRoute";
 
 const Header = styled.header`
   height: 100px;
@@ -35,21 +36,23 @@ const App = () => {
       </Header>
 
       <Switch>
-        <Route path="/form/create">
+        <Route path="/form/create" exact>
           <Form />
         </Route>
 
-        <Route path="/form/:id/answer">
+        <Route path="/form/:id/answer" exact>
           <AnswerForm />
         </Route>
 
-        <Route path="/form/:id">
+        <Route path="/form/:id" exact>
           <Form />
         </Route>
 
-        <Route path="/">
+        <Route path="/" exact>
           <Home />
         </Route>
+
+        <Route component={NoRoute} />
       </Switch>
     </Router>
   );

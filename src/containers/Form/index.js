@@ -20,6 +20,7 @@ import { postForm } from "../../services/postForm";
 import { fetchForm } from "../../services/fetchForm";
 import { updateForm } from "../../services/updateForm";
 import { deleteForm } from "../../services/deleteForm";
+import NoRoute from "../NoRoute";
 
 const INITIAL_FORM = { title: "", answers: [], questions: [] };
 
@@ -30,6 +31,8 @@ const Form = () => {
   const [answers, setAnswers] = useState([]);
   const [titleForm, setTitleForm] = useState("");
   const [showMessage, setShowMessage] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const { id } = useParams();
   const history = useHistory();
@@ -142,13 +145,14 @@ const Form = () => {
   const getForm = async () => {
     const form = await fetchForm(id);
 
-    if (!form) {
-      history.push("/");
-    } else {
+    if (form) {
       setTitleForm(form.title);
       setQuestions(form.questions || []);
       setAnswers(form.answers || []);
       setForm(form);
+      setIsLoaded(true);
+    } else {
+      setNotFound(true);
     }
   };
 
@@ -172,6 +176,7 @@ const Form = () => {
     if (id === undefined) {
       setQuestions([]);
       setAnswers([]);
+      setIsLoaded(true);
     } else {
       getForm();
     }
@@ -179,88 +184,96 @@ const Form = () => {
 
   return (
     <>
-      <Notification show={showMessage}>
-        <Icon icon="check" style={{ marginRight: 10 }} />
-        <p>Vos modifications ont été prises en compte !</p>
-      </Notification>
+      {notFound && <NoRoute />}
+      {isLoaded && (
+        <>
+          <Notification show={showMessage}>
+            <Icon icon="check" style={{ marginRight: 10 }} />
+            <p>Vos modifications ont été prises en compte !</p>
+          </Notification>
 
-      <Container>
-        <TopBar direction="row" justify="space-between" align="center">
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <Flex direction="row" align="center">
-              <Icon icon="chevron-left" color="black" size="24px" />
-              <StyledText>Mes formulaires</StyledText>
-            </Flex>
-          </Link>
+          <Container>
+            <TopBar direction="row" justify="space-between" align="center">
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <Flex direction="row" align="center">
+                  <Icon icon="chevron-left" color="black" size="24px" />
+                  <StyledText>Mes formulaires</StyledText>
+                </Flex>
+              </Link>
 
-          <Flex direction="row">
-            <InputTitle
-              type="text"
-              name="title"
-              style={{ marginRight: 10 }}
-              placeholder="Nom du formulaire"
-              onChange={handleChangeText}
-              value={titleForm}
-            />
-            <Button
-              appearance="outline"
-              color="blue"
-              iconCenter="check"
-              iconSize="22px"
-              onClick={handleForm}
-              disabled={isSaveButtonDisabled()}
-            />
-          </Flex>
+              <Flex direction="row">
+                <InputTitle
+                  type="text"
+                  name="title"
+                  style={{ marginRight: 10 }}
+                  placeholder="Nom du formulaire"
+                  onChange={handleChangeText}
+                  value={titleForm}
+                />
+                <Button
+                  appearance="outline"
+                  color="blue"
+                  iconCenter="check"
+                  iconSize="22px"
+                  onClick={handleForm}
+                  disabled={isSaveButtonDisabled()}
+                />
+              </Flex>
 
-          <Flex direction="row">
-            <Button
-              appearance="outline"
-              color="pink"
-              iconCenter="trash"
-              style={{ marginRight: 10 }}
-              disabled={!id}
-              onClick={deletedForm}
-            />
-            <Link to={`/form/${id}/answer`} style={{ textDecoration: "none" }}>
-              <Button appearance="fill" color="blue" disabled={!id}>
-                Répondre
-              </Button>
-            </Link>
-          </Flex>
-        </TopBar>
+              <Flex direction="row">
+                <Button
+                  appearance="outline"
+                  color="pink"
+                  iconCenter="trash"
+                  style={{ marginRight: 10 }}
+                  disabled={!id}
+                  onClick={deletedForm}
+                />
+                <Link
+                  to={`/form/${id}/answer`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button appearance="fill" color="blue" disabled={!id}>
+                    Répondre
+                  </Button>
+                </Link>
+              </Flex>
+            </TopBar>
 
-        <BlueBox>
-          <TabList>
-            <TabItem
-              isSelected={selectedTab === "questions"}
-              onClick={() => setSelectedTab("questions")}
-            >
-              Questions
-            </TabItem>
-            <TabItem
-              isSelected={selectedTab === "answers"}
-              onClick={() => setSelectedTab("answers")}
-            >
-              Réponses
-            </TabItem>
-          </TabList>
+            <BlueBox>
+              <TabList>
+                <TabItem
+                  isSelected={selectedTab === "questions"}
+                  onClick={() => setSelectedTab("questions")}
+                >
+                  Questions
+                </TabItem>
+                <TabItem
+                  isSelected={selectedTab === "answers"}
+                  onClick={() => setSelectedTab("answers")}
+                >
+                  Réponses
+                </TabItem>
+              </TabList>
 
-          {selectedTab === "questions" && (
-            <Questions
-              questions={questions}
-              onChangeText={onChangeText}
-              moveUpQuestion={moveUpQuestion}
-              moveDownQuestion={moveDownQuestion}
-              removeQuestion={removeQuestion}
-              onAdd={onAdd}
-              disabled={isSaveButtonDisabled()}
-              onSave={handleForm}
-            />
-          )}
+              {selectedTab === "questions" && (
+                <Questions
+                  questions={questions}
+                  onChangeText={onChangeText}
+                  moveUpQuestion={moveUpQuestion}
+                  moveDownQuestion={moveDownQuestion}
+                  removeQuestion={removeQuestion}
+                  onAdd={onAdd}
+                  disabled={isSaveButtonDisabled()}
+                  onSave={handleForm}
+                />
+              )}
 
-          {selectedTab === "answers" && <Answers answers={answers} />}
-        </BlueBox>
-      </Container>
+              {selectedTab === "answers" && <Answers answers={answers} />}
+            </BlueBox>
+          </Container>
+        </>
+      )}
     </>
   );
 };

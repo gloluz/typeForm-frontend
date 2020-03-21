@@ -12,6 +12,7 @@ import Rating from "../../components/Rating";
 import { fetchForm } from "../../services/fetchForm";
 import { updateForm } from "../../services/updateForm";
 import { TextArea, TitleEnd } from "./styles";
+import NoRoute from "../NoRoute";
 
 const INITIAL_FORM = { title: "", answers: [], questions: [] };
 
@@ -20,9 +21,9 @@ const AnswerForm = () => {
   const [questionScreen, setQuestionScreen] = useState("home");
   const [answers, setAnswers] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [notFound, setNotFound] = useState(false);
 
   const { id } = useParams();
-  const history = useHistory();
 
   const beginQuestion = () => setQuestionScreen("question");
 
@@ -111,7 +112,7 @@ const AnswerForm = () => {
     if (form) {
       setForm(form);
     } else {
-      history.push("/");
+      setNotFound(true);
     }
   };
 
@@ -132,135 +133,157 @@ const AnswerForm = () => {
   }, []);
 
   return (
-    <Container>
-      <Flex direction="row" justify="space-between" align="center">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Flex direction="row" align="center">
-            <Icon icon="chevron-left" color="black" size="24px" />
-            <StyledText>Mes formulaires</StyledText>
-          </Flex>
-        </Link>
-      </Flex>
+    <>
+      {notFound && <NoRoute />}
 
-      <BlueBox>
-        {questionScreen === "home" && (
-          <Flex direction="column" justify="center" flex="1">
-            <Title level={4}>Sondage</Title>
-            <Title level={1} style={{ marginTop: 20, marginBottom: 20 }}>
-              {form?.title}
-            </Title>
-
-            {form.questions.length === 0 ? (
-              <>
-                <Title level={2}>Pas encore de question pour le moment</Title>
-                <Link to={`/form/${id}`} style={{ textDecoration: "none" }}>
-                  <Button
-                    appearance="outline"
-                    color="blue"
-                    style={{ marginTop: 15 }}
-                  >
-                    Ajouter des questions
-                  </Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Title level={2}>{form.questions.length} questions</Title>
-                <Button
-                  appearance="fill"
-                  color="blue"
-                  style={{ marginTop: 15 }}
-                  onClick={beginQuestion}
-                >
-                  Commencer
-                </Button>
-              </>
-            )}
-          </Flex>
-        )}
-
-        {questionScreen === "question" && (
-          <Flex direction="column" justify="center" align="center" flex="1">
-            <Flex
-              flex="1"
-              direction="column"
-              justify="center"
-              align="center"
-              style={{ maxWidth: "100%" }}
-            >
-              <Title level={4} style={{ marginBottom: 15, marginTop: 10 }}>
-                Question {currentQuestion + 1}
-              </Title>
-              <Title level={1}>{form.questions[currentQuestion].title}</Title>
-
-              {form.questions[currentQuestion].type === "text" && (
-                <TextArea
-                  placeholder="Répondez ici..."
-                  onChange={e => addTextAnswer(e.target.value, currentQuestion)}
-                  value={
-                    answers[currentQuestion]
-                      ? answers[currentQuestion].text
-                      : ""
-                  }
-                />
-              )}
-
-              {form.questions[currentQuestion].type === "note" && (
-                <Flex align="center" justify="center" style={{ height: 215 }}>
-                  <Rating
-                    onChange={rating =>
-                      addRatingAnswer(rating, currentQuestion)
-                    }
-                    value={
-                      answers[currentQuestion]
-                        ? answers[currentQuestion].rating
-                        : undefined
-                    }
-                  />
-                </Flex>
-              )}
-            </Flex>
-
-            <Flex
-              direction="row"
-              justify="space-between"
-              style={{ width: "100%" }}
-            >
-              <Button
-                appearance="text"
-                color="blue"
-                iconBefore="arrow-left"
-                onClick={previousScreen}
-              >
-                Précédent
-              </Button>
-
-              <Button
-                appearance="fill"
-                color="blue"
-                iconAfter="arrow-right"
-                onClick={nextScreen}
-                disabled={!isValidAnswer()}
-              >
-                Suivant
-              </Button>
-            </Flex>
-          </Flex>
-        )}
-
-        {questionScreen === "success" && (
-          <Flex flex="1" direction="column" justify="center" align="center">
-            <TitleEnd level={1}>Merci d'avoir répondu à ce formulaire</TitleEnd>
-
+      {form._id && (
+        <Container>
+          <Flex direction="row" justify="space-between" align="center">
             <Link to="/" style={{ textDecoration: "none" }}>
-              <Button appearance="fill" color="blue" style={{ marginTop: 60 }}>
-                Accéder à mes formulaires
-              </Button>
+              <Flex direction="row" align="center">
+                <Icon icon="chevron-left" color="black" size="24px" />
+                <StyledText>Mes formulaires</StyledText>
+              </Flex>
             </Link>
           </Flex>
-        )}
-      </BlueBox>
-    </Container>
+
+          <BlueBox>
+            {questionScreen === "home" && (
+              <Flex direction="column" justify="center" flex="1">
+                <Title level={4}>Sondage</Title>
+                <Title level={1} style={{ marginTop: 20, marginBottom: 20 }}>
+                  {form?.title}
+                </Title>
+
+                {form.questions.length === 0 ? (
+                  <>
+                    <Title level={2}>
+                      Pas encore de question pour le moment
+                    </Title>
+                    <Link to={`/form/${id}`} style={{ textDecoration: "none" }}>
+                      <Button
+                        appearance="outline"
+                        color="blue"
+                        style={{ marginTop: 15 }}
+                      >
+                        Ajouter des questions
+                      </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Title level={2}>{form.questions.length} questions</Title>
+                    <Button
+                      appearance="fill"
+                      color="blue"
+                      style={{ marginTop: 15 }}
+                      onClick={beginQuestion}
+                    >
+                      Commencer
+                    </Button>
+                  </>
+                )}
+              </Flex>
+            )}
+
+            {questionScreen === "question" && (
+              <Flex direction="column" justify="center" align="center" flex="1">
+                <Flex
+                  flex="1"
+                  direction="column"
+                  justify="center"
+                  align="center"
+                  style={{ maxWidth: "100%" }}
+                >
+                  <Title level={4} style={{ marginBottom: 15, marginTop: 10 }}>
+                    Question {currentQuestion + 1}
+                  </Title>
+                  <Title level={1}>
+                    {form.questions[currentQuestion].title}
+                  </Title>
+
+                  {form.questions[currentQuestion].type === "text" && (
+                    <TextArea
+                      placeholder="Répondez ici..."
+                      onChange={e =>
+                        addTextAnswer(e.target.value, currentQuestion)
+                      }
+                      value={
+                        answers[currentQuestion]
+                          ? answers[currentQuestion].text
+                          : ""
+                      }
+                    />
+                  )}
+
+                  {form.questions[currentQuestion].type === "note" && (
+                    <Flex
+                      align="center"
+                      justify="center"
+                      style={{ height: 215 }}
+                    >
+                      <Rating
+                        onChange={rating =>
+                          addRatingAnswer(rating, currentQuestion)
+                        }
+                        value={
+                          answers[currentQuestion]
+                            ? answers[currentQuestion].rating
+                            : undefined
+                        }
+                      />
+                    </Flex>
+                  )}
+                </Flex>
+
+                <Flex
+                  direction="row"
+                  justify="space-between"
+                  style={{ width: "100%" }}
+                >
+                  <Button
+                    appearance="text"
+                    color="blue"
+                    iconBefore="arrow-left"
+                    onClick={previousScreen}
+                  >
+                    Précédent
+                  </Button>
+
+                  <Button
+                    appearance="fill"
+                    color="blue"
+                    iconAfter="arrow-right"
+                    onClick={nextScreen}
+                    disabled={!isValidAnswer()}
+                  >
+                    Suivant
+                  </Button>
+                </Flex>
+              </Flex>
+            )}
+
+            {questionScreen === "success" && (
+              <Flex flex="1" direction="column" justify="center" align="center">
+                <TitleEnd level={1}>
+                  Merci d'avoir répondu à ce formulaire
+                </TitleEnd>
+
+                <Link to="/" style={{ textDecoration: "none" }}>
+                  <Button
+                    appearance="fill"
+                    color="blue"
+                    style={{ marginTop: 60 }}
+                  >
+                    Accéder à mes formulaires
+                  </Button>
+                </Link>
+              </Flex>
+            )}
+          </BlueBox>
+        </Container>
+      )}
+    </>
   );
 };
 

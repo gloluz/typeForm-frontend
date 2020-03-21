@@ -1,7 +1,8 @@
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const Flex = styled.div`
+const FlexStyled = styled.div`
   display: flex;
   justify-content: ${({ justify }) => justify || "flex-start"};
   align-items: ${({ align }) => align || "flex-start"};
@@ -9,6 +10,8 @@ const Flex = styled.div`
   flex-wrap: ${({ wrap }) => (wrap ? "wrap" : "nowrap")};
   flex: ${({ flex }) => flex || "0 1 auto"};
 `;
+
+const Flex = ({ ...props }) => <FlexStyled {...props} />;
 
 Flex.propTypes = {
   flex: PropTypes.string,
