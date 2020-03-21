@@ -35,6 +35,7 @@ const Questions = ({
               <QuestionType type={question.type} index={index + 1} />
               <QuestionTitleInput
                 value={question.title}
+                placeholder="Titre de votre question"
                 name="questionTitle"
                 onChange={event => onChangeText(event, index)}
               />
