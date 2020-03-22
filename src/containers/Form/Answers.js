@@ -31,7 +31,14 @@ const Answers = ({ answers }) => (
                 <QuestionTitle>{answer.question}</QuestionTitle>
 
                 {answer.type === "text" && (
-                  <AnswerText>{answer.text}</AnswerText>
+                  <AnswerText>
+                    {answer.text.split("\n").map(line => (
+                      <>
+                        {line}
+                        <br />
+                      </>
+                    ))}
+                  </AnswerText>
                 )}
 
                 {answer.type === "note" && (
