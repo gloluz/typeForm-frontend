@@ -13,7 +13,7 @@ const StyledBox = styled.div`
   box-sizing: border-box;
 
   @media (min-width: 1025px) {
-    &:nth-child(3) {
+    &:nth-child(3n) {
       margin-right: 0;
     }
   }
@@ -40,7 +40,7 @@ const StyledBox = styled.div`
   @media (min-width: 601px) and (max-width: 1024px) {
     width: calc(50% - 12px);
 
-    &:nth-child(2) {
+    &:nth-child(2n) {
       margin-right: 0;
     }
   }
